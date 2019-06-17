@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: node-label-controller
+  namespace: cluster-operators
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: node-label-controller
+    spec:
+      containers:
+      - name: node-label-controller
+        image: omegas27/node-label-controller:1.0.0
+        imagePullPolicy: Always
+        command:
+        - "./node-label-controller"
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
